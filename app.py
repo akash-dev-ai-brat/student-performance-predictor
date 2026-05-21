@@ -4,7 +4,7 @@ import numpy as np
 import joblib
 import plotly.graph_objects as go
 import plotly.express as px
-
+import os
 # ─── Page Config ───────────────────────────────────────────────
 st.set_page_config(
     page_title="Student Performance Predictor | Akash Nath",
@@ -15,12 +15,12 @@ st.set_page_config(
 # ─── Load Model ────────────────────────────────────────────────
 @st.cache_resource
 def load_model():
+    if not os.path.exists("model.pkl"):
+        import model as m  # auto-train if pkl not found
     model    = joblib.load("model.pkl")
     le       = joblib.load("label_encoder.pkl")
     features = joblib.load("features.pkl")
     return model, le, features
-
-model, le, features = load_model()
 
 # ─── Grade Config ──────────────────────────────────────────────
 GRADE_CONFIG = {
