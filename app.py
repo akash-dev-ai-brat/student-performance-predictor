@@ -21,6 +21,13 @@ def load_model():
     le       = joblib.load("label_encoder.pkl")
     features = joblib.load("features.pkl")
     return model, le, features
+model, le, features = load_model()
+
+feat_labels = [
+    "Study Hours", "Attendance", "Sleep Hours", "Previous Score",
+    "Assignments", "Stress Level", "Extra Curricular",
+    "Internet Hours", "Family Support", "Part Time Job"
+]
 
 # ─── Grade Config ──────────────────────────────────────────────
 GRADE_CONFIG = {
@@ -242,11 +249,7 @@ with tab2:
     st.markdown("<div class='section-title'>📊 What factors matter most for your grade?</div>", unsafe_allow_html=True)
 
     importance = model.feature_importances_
-    feat_labels = [
-        "Study Hours", "Attendance", "Sleep Hours", "Previous Score",
-        "Assignments", "Stress Level", "Extra Curricular",
-        "Internet Hours", "Family Support", "Part Time Job"
-    ]
+    
     sorted_idx = np.argsort(importance)[::-1]
 
     fig2 = go.Figure(go.Bar(
